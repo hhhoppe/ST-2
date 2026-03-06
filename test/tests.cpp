@@ -192,4 +192,4 @@ TEST(PoolTest, CostValues) {
 // CircleTest: 15 тестов
 // EarthRopeTest: 3 теста
 // PoolTest: 5 тестов
-// ВСЕГО: 23 теста (минимум 20 выполнено)
+// ВСЕГО: 23 теста

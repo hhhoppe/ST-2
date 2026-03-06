@@ -1,13 +1,14 @@
 // Copyright 2022 UNN-CS
+
 #ifndef INCLUDE_TASKS_H_
 #define INCLUDE_TASKS_H_
 
-struct PathCosts {
-  double concrete;
-  double fence;
+struct PoolCosts {
+  double concrete_cost;
+  double fence_cost;
 };
 
-double earthRopeGap();
-PathCosts poolExpenses();
+double solveEarthRopeTask();
+PoolCosts solvePoolTask();
 
 #endif  // INCLUDE_TASKS_H_
