@@ -2,7 +2,6 @@
 #ifndef INCLUDE_CIRCLE_H_
 #define INCLUDE_CIRCLE_H_
 
-#endif  // INCLUDE_CIRCLE_H_
 class Circle {
  private:
     double radius_;
