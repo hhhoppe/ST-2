@@ -1,6 +1,6 @@
 // Copyright 2022 UNN-CS
-#include <cmath>
 #include "circle.h"
+#include <cmath>
 #include <stdexcept>
 
 void Circle::updateByRadius() {
