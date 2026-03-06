@@ -4,6 +4,7 @@
 #include <cmath>
 #include <stdexcept>
 #include "circle.h"
+#include "tasks.h"
 
 const double EPS = 1e-5;
 const double PI = 3.14159265358979323846;
@@ -138,54 +139,54 @@ TEST(CircleTest, AreaToFerence) {
 // ==================== ТЕСТЫ ЗАДАЧИ "ВЕРЕВКА" ====================
 
 TEST(EarthRopeTest, GapPositive) {
-    double gap = earthRopeGap();
+    double gap = solveEarthRopeTask();
     EXPECT_GT(gap, 0.0);
 }
 
 TEST(EarthRopeTest, GapFormula) {
-    double gap = earthRopeGap();
+    double gap = solveEarthRopeTask();
     double expected = 1.0 / (2.0 * PI);
     EXPECT_NEAR(gap, expected, EPS);
 }
 
 TEST(EarthRopeTest, GapInMeters) {
-    double gap = earthRopeGap();
+    double gap = solveEarthRopeTask();
     EXPECT_NEAR(gap, 0.1591549, 1e-6);
 }
 
 // ==================== ТЕСТЫ ЗАДАЧИ "БАССЕЙН" ====================
 
 TEST(PoolTest, PathArea) {
-    PathCosts costs = poolExpenses();
+    PoolCosts costs = solvePoolTask();
     Circle inner(3.0);
     Circle outer(4.0);
     double expectedArea = outer.getArea() - inner.getArea();
-    double actualArea = costs.concrete / 1000.0;
+    double actualArea = costs.concrete_cost / 1000.0;
     EXPECT_NEAR(actualArea, expectedArea, EPS);
 }
 
 TEST(PoolTest, FenceLength) {
-    PathCosts costs = poolExpenses();
+    PoolCosts costs = solvePoolTask();
     Circle outer(4.0);
     double expectedLength = outer.getFerence();
-    double actualLength = costs.fence / 2000.0;
+    double actualLength = costs.fence_cost / 2000.0;
     EXPECT_NEAR(actualLength, expectedLength, EPS);
 }
 
 TEST(PoolTest, ConcreteCostPositive) {
-    PathCosts costs = poolExpenses();
-    EXPECT_GT(costs.concrete, 0.0);
+    PoolCosts costs = solvePoolTask();
+    EXPECT_GT(costs.concrete_cost, 0.0);
 }
 
 TEST(PoolTest, FenceCostPositive) {
-    PathCosts costs = poolExpenses();
-    EXPECT_GT(costs.fence, 0.0);
+    PoolCosts costs = solvePoolTask();
+    EXPECT_GT(costs.fence_cost, 0.0);
 }
 
 TEST(PoolTest, CostValues) {
-    PathCosts costs = poolExpenses();
-    EXPECT_NEAR(costs.concrete, 21991.1, 10.0);
-    EXPECT_NEAR(costs.fence, 50265.5, 10.0);
+    PoolCosts costs = solvePoolTask();
+    EXPECT_NEAR(costs.concrete_cost, 21991.1, 10.0);
+    EXPECT_NEAR(costs.fence_cost, 50265.5, 10.0);
 }
 
 // ==================== ИТОГО ТЕСТОВ ====================
