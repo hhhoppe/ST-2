@@ -1,10 +1,12 @@
 set(header_path "${${PROJECT_NAME}_SOURCE_DIR}/include")
 set(header 
-  ${header_path}/circle.h
-  ${header_path}/tasks.h)
+    ${header_path}/circle.h
+    ${header_path}/tasks.h
+)
 set(src 
-  circle.cpp
-  tasks.cpp)
+    circle.cpp 
+    tasks.cpp
+)
 
 add_library(${PROJECT_NAME} SHARED
   ${header}
@@ -22,7 +24,6 @@ target_include_directories(${PROJECT_NAME}.info
          ${${PROJECT_NAME}_SOURCE_DIR}/include)
 target_link_libraries(${PROJECT_NAME}.info
   ${PROJECT_NAME})
-
 
 install(TARGETS ${PROJECT_NAME}
         LIBRARY DESTINATION "${lib_dest}"

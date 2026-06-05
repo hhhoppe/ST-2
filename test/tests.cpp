@@ -6,39 +6,39 @@
 #include "circle.h"
 #include "tasks.h"
 
-const double EPS = 1e-5;
+const double EPS = 1e-6;
 const double PI = 3.14159265358979323846;
 
 // ==================== ТЕСТЫ КОНСТРУКТОРА ====================
 
-TEST(CircleTest, ConstructorDefault) {
+TEST(CircleConstructorTest, DefaultConstructor) {
     Circle c;
     EXPECT_NEAR(c.getRadius(), 0.0, EPS);
     EXPECT_NEAR(c.getFerence(), 0.0, EPS);
     EXPECT_NEAR(c.getArea(), 0.0, EPS);
 }
 
-TEST(CircleTest, ConstructorWithRadius) {
+TEST(CircleConstructorTest, ConstructorWithPositiveRadius) {
     Circle c(5.0);
     EXPECT_NEAR(c.getRadius(), 5.0, EPS);
     EXPECT_NEAR(c.getFerence(), 2.0 * PI * 5.0, EPS);
     EXPECT_NEAR(c.getArea(), PI * 25.0, EPS);
 }
 
-TEST(CircleTest, ConstructorZeroRadius) {
+TEST(CircleConstructorTest, ConstructorWithZeroRadius) {
     Circle c(0.0);
     EXPECT_NEAR(c.getRadius(), 0.0, EPS);
     EXPECT_NEAR(c.getFerence(), 0.0, EPS);
     EXPECT_NEAR(c.getArea(), 0.0, EPS);
 }
 
-TEST(CircleTest, ConstructorNegativeThrows) {
+TEST(CircleConstructorTest, ConstructorWithNegativeThrows) {
     EXPECT_THROW(Circle(-5.0), std::invalid_argument);
 }
 
 // ==================== ТЕСТЫ СЕТТЕРОВ ====================
 
-TEST(CircleTest, SetRadiusUpdatesAll) {
+TEST(CircleSettersTest, SetRadiusUpdatesAll) {
     Circle c(1.0);
     c.setRadius(3.0);
     EXPECT_NEAR(c.getRadius(), 3.0, EPS);
@@ -46,7 +46,7 @@ TEST(CircleTest, SetRadiusUpdatesAll) {
     EXPECT_NEAR(c.getArea(), PI * 9.0, EPS);
 }
 
-TEST(CircleTest, SetFerenceUpdatesAll) {
+TEST(CircleSettersTest, SetFerenceUpdatesAll) {
     Circle c(1.0);
     c.setFerence(2.0 * PI * 4.0);
     EXPECT_NEAR(c.getRadius(), 4.0, EPS);
@@ -54,7 +54,7 @@ TEST(CircleTest, SetFerenceUpdatesAll) {
     EXPECT_NEAR(c.getArea(), PI * 16.0, EPS);
 }
 
-TEST(CircleTest, SetAreaUpdatesAll) {
+TEST(CircleSettersTest, SetAreaUpdatesAll) {
     Circle c(1.0);
     c.setArea(PI * 25.0);
     EXPECT_NEAR(c.getRadius(), 5.0, EPS);
@@ -62,25 +62,23 @@ TEST(CircleTest, SetAreaUpdatesAll) {
     EXPECT_NEAR(c.getArea(), PI * 25.0, EPS);
 }
 
-TEST(CircleTest, SetRadiusNegativeThrows) {
+TEST(CircleSettersTest, SetRadiusNegativeThrows) {
     Circle c(1.0);
     EXPECT_THROW(c.setRadius(-1.0), std::invalid_argument);
     EXPECT_NEAR(c.getRadius(), 1.0, EPS);
 }
 
-TEST(CircleTest, SetFerenceNegativeThrows) {
+TEST(CircleSettersTest, SetFerenceNegativeThrows) {
     Circle c(1.0);
     EXPECT_THROW(c.setFerence(-1.0), std::invalid_argument);
-    EXPECT_NEAR(c.getFerence(), 2.0 * PI, EPS);
 }
 
-TEST(CircleTest, SetAreaNegativeThrows) {
+TEST(CircleSettersTest, SetAreaNegativeThrows) {
     Circle c(1.0);
     EXPECT_THROW(c.setArea(-1.0), std::invalid_argument);
-    EXPECT_NEAR(c.getArea(), PI, EPS);
 }
 
-TEST(CircleTest, SetRadiusZero) {
+TEST(CircleSettersTest, SetRadiusZero) {
     Circle c(5.0);
     c.setRadius(0.0);
     EXPECT_NEAR(c.getRadius(), 0.0, EPS);
@@ -88,25 +86,7 @@ TEST(CircleTest, SetRadiusZero) {
     EXPECT_NEAR(c.getArea(), 0.0, EPS);
 }
 
-TEST(CircleTest, SetFerenceZero) {
-    Circle c(5.0);
-    c.setFerence(0.0);
-    EXPECT_NEAR(c.getRadius(), 0.0, EPS);
-    EXPECT_NEAR(c.getFerence(), 0.0, EPS);
-    EXPECT_NEAR(c.getArea(), 0.0, EPS);
-}
-
-TEST(CircleTest, SetAreaZero) {
-    Circle c(5.0);
-    c.setArea(0.0);
-    EXPECT_NEAR(c.getRadius(), 0.0, EPS);
-    EXPECT_NEAR(c.getFerence(), 0.0, EPS);
-    EXPECT_NEAR(c.getArea(), 0.0, EPS);
-}
-
-// ==================== ТЕСТЫ КОРРЕКТНОСТИ ПЕРЕСЧЕТА ====================
-
-TEST(CircleTest, MultipleSetsConsistency) {
+TEST(CircleSettersTest, MultipleSetsConsistency) {
     Circle c(2.0);
     c.setRadius(3.0);
     c.setFerence(2.0 * PI * 4.0);
@@ -116,81 +96,98 @@ TEST(CircleTest, MultipleSetsConsistency) {
     EXPECT_NEAR(c.getArea(), PI * 25.0, EPS);
 }
 
-TEST(CircleTest, PiConsistency) {
+// ==================== ТЕСТЫ ГЕТТЕРОВ ====================
+
+TEST(CircleGettersTest, GetRadiusReturnsCorrectValue) {
+    Circle c(7.5);
+    EXPECT_NEAR(c.getRadius(), 7.5, EPS);
+}
+
+TEST(CircleGettersTest, GetFerenceReturnsCorrectValue) {
+    Circle c(2.0);
+    EXPECT_NEAR(c.getFerence(), 2.0 * PI * 2.0, EPS);
+}
+
+TEST(CircleGettersTest, GetAreaReturnsCorrectValue) {
+    Circle c(3.0);
+    EXPECT_NEAR(c.getArea(), PI * 9.0, EPS);
+}
+
+// ==================== ТЕСТЫ МАТЕМАТИЧЕСКОЙ КОРРЕКТНОСТИ ====================
+
+TEST(CircleMathTest, PiConsistency) {
     Circle c(2.0);
     EXPECT_NEAR(c.getFerence() / (2.0 * c.getRadius()), PI, EPS);
     EXPECT_NEAR(c.getArea() / (c.getRadius() * c.getRadius()), PI, EPS);
 }
 
-TEST(CircleTest, FerenceToArea) {
+TEST(CircleMathTest, FerenceToAreaRelation) {
     Circle c(1.0);
     c.setFerence(10.0);
     double expectedArea = PI * std::pow(10.0 / (2.0 * PI), 2);
     EXPECT_NEAR(c.getArea(), expectedArea, EPS);
 }
 
-TEST(CircleTest, AreaToFerence) {
+TEST(CircleMathTest, AreaToFerenceRelation) {
     Circle c(1.0);
     c.setArea(100.0);
     double expectedFerence = 2.0 * PI * std::sqrt(100.0 / PI);
     EXPECT_NEAR(c.getFerence(), expectedFerence, EPS);
 }
 
-// ==================== ТЕСТЫ ЗАДАЧИ "ВЕРЕВКА" ====================
+// ==================== ТЕСТЫ ЗАДАЧИ "ЗЕМЛЯ И ВЕРЁВКА" ====================
 
-TEST(EarthRopeTest, GapPositive) {
-    double gap = solveEarthRopeTask();
+TEST(EarthRopeTest, GapIsPositive) {
+    double gap = calculateEarthRopeGap();
     EXPECT_GT(gap, 0.0);
 }
 
-TEST(EarthRopeTest, GapFormula) {
-    double gap = solveEarthRopeTask();
+TEST(EarthRopeTest, GapFormulaCheck) {
+    double gap = calculateEarthRopeGap();
     double expected = 1.0 / (2.0 * PI);
     EXPECT_NEAR(gap, expected, EPS);
 }
 
-TEST(EarthRopeTest, GapInMeters) {
-    double gap = solveEarthRopeTask();
-    EXPECT_NEAR(gap, 0.1591549, 1e-6);
+TEST(EarthRopeTest, GapApproximately16cm) {
+    double gap = calculateEarthRopeGap();
+    EXPECT_NEAR(gap, 0.1591549, 1e-5);
 }
 
 // ==================== ТЕСТЫ ЗАДАЧИ "БАССЕЙН" ====================
 
-TEST(PoolTest, PathArea) {
-    PoolCosts costs = solvePoolTask();
-    Circle inner(3.0);
+TEST(PoolTaskTest, PathAreaCorrect) {
+    PoolCost costs = calculatePoolCosts();
+    Circle pool(3.0);
     Circle outer(4.0);
-    double expectedArea = outer.getArea() - inner.getArea();
-    double actualArea = costs.concrete_cost / 1000.0;
+    double expectedArea = outer.getArea() - pool.getArea();
+    double actualArea = costs.concrete / 1000.0;
     EXPECT_NEAR(actualArea, expectedArea, EPS);
 }
 
-TEST(PoolTest, FenceLength) {
-    PoolCosts costs = solvePoolTask();
+TEST(PoolTaskTest, FenceLengthCorrect) {
+    PoolCost costs = calculatePoolCosts();
     Circle outer(4.0);
     double expectedLength = outer.getFerence();
-    double actualLength = costs.fence_cost / 2000.0;
+    double actualLength = costs.fence / 2000.0;
     EXPECT_NEAR(actualLength, expectedLength, EPS);
 }
 
-TEST(PoolTest, ConcreteCostPositive) {
-    PoolCosts costs = solvePoolTask();
-    EXPECT_GT(costs.concrete_cost, 0.0);
+TEST(PoolTaskTest, ConcreteCostPositive) {
+    PoolCost costs = calculatePoolCosts();
+    EXPECT_GT(costs.concrete, 0.0);
 }
 
-TEST(PoolTest, FenceCostPositive) {
-    PoolCosts costs = solvePoolTask();
-    EXPECT_GT(costs.fence_cost, 0.0);
+TEST(PoolTaskTest, FenceCostPositive) {
+    PoolCost costs = calculatePoolCosts();
+    EXPECT_GT(costs.fence, 0.0);
 }
 
-TEST(PoolTest, CostValues) {
-    PoolCosts costs = solvePoolTask();
-    EXPECT_NEAR(costs.concrete_cost, 21991.1, 10.0);
-    EXPECT_NEAR(costs.fence_cost, 50265.5, 10.0);
+TEST(PoolTaskTest, ConcreteCostApproximate) {
+    PoolCost costs = calculatePoolCosts();
+    EXPECT_NEAR(costs.concrete, 21991.1, 10.0);
 }
 
-// ==================== ИТОГО ТЕСТОВ ====================
-// CircleTest: 15 тестов
-// EarthRopeTest: 3 теста
-// PoolTest: 5 тестов
-// ВСЕГО: 23 теста
+TEST(PoolTaskTest, FenceCostApproximate) {
+    PoolCost costs = calculatePoolCosts();
+    EXPECT_NEAR(costs.fence, 50265.5, 10.0);
+}

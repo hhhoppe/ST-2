@@ -3,12 +3,12 @@
 #ifndef INCLUDE_TASKS_H_
 #define INCLUDE_TASKS_H_
 
-struct PoolCosts {
-  double concrete_cost;
-  double fence_cost;
+struct PoolCost {
+    double concrete;
+    double fence;
 };
 
-double solveEarthRopeTask();
-PoolCosts solvePoolTask();
+double calculateEarthRopeGap();
+PoolCost calculatePoolCosts();
 
 #endif  // INCLUDE_TASKS_H_
